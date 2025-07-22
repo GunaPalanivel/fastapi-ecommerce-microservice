@@ -1,0 +1,28 @@
+# Core FastAPI framework
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+
+# MongoDB async driver
+motor==3.3.2
+pymongo==4.6.0  # motor depends on pymongo internally
+
+# Data validation
+pydantic==2.4.2  # Compatible with FastAPI >= 0.104.0
+
+# Multipart/form-data support
+python-multipart==0.0.6
+
+# Environment variable loader
+python-dotenv==1.0.0
+
+# Testing & HTTP client
+pytest==7.4.3
+pytest-asyncio==0.21.1
+httpx==0.25.2
+requests==2.31.0
+
+# Production server
+gunicorn==21.2.0
+
+# Optional: Monitoring and logging
+sentry-sdk[fastapi]==1.38.0

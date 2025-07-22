@@ -1,0 +1,866 @@
+{
+  "metadata": {
+    "test_suite": "Enterprise FastAPI E-commerce API Test Suite",
+    "version": "1.0.0",
+    "timestamp": "2025-07-22T13:08:07.223134",
+    "base_url": "http://localhost:8000",
+    "total_tests": 45,
+    "duration_seconds": 12.580553865432739
+  },
+  "summary": {
+    "total_tests": 45,
+    "passed": 40,
+    "failed": 5,
+    "success_rate": 88.88888888888889,
+    "production_readiness_score": 72
+  },
+  "performance_metrics": {
+    "avg_response_time": 517.7657135197373,
+    "min_response_time": 0.0,
+    "max_response_time": 2068.3658123016357,
+    "p95_response_time": 2058.5131645202637,
+    "p99_response_time": 2068.3658123016357,
+    "throughput_rps": 29.491881773137813,
+    "success_rate": 88.88888888888889
+  },
+  "test_results": [
+    {
+      "test_name": "Health Check - Basic",
+      "success": false,
+      "status_code": 200,
+      "response_time_ms": 2058.337450027466,
+      "timestamp": "2025-07-22T13:07:54.973413",
+      "expected_result": {
+        "status": "healthy",
+        "service": "ecommerce-api"
+      },
+      "actual_result": {
+        "status": "healthy",
+        "service": "ecommerce-api"
+      },
+      "error_details": null,
+      "root_cause": "Server not responding correctly",
+      "suggestion": "Check if FastAPI server is running and accessible",
+      "test_category": "health",
+      "severity": "critical"
+    },
+    {
+      "test_name": "Health Check - Load Test (10 concurrent)",
+      "success": true,
+      "status_code": 200,
+      "response_time_ms": 1442.8128719329834,
+      "timestamp": "2025-07-22T13:07:57.053371",
+      "expected_result": "10/10 successful responses under 2000ms",
+      "actual_result": "10/10 successful, avg 1442.81ms",
+      "error_details": null,
+      "root_cause": null,
+      "suggestion": null,
+      "test_category": "performance",
+      "severity": "low"
+    },
+    {
+      "test_name": "Database Connectivity Check",
+      "success": true,
+      "status_code": 200,
+      "response_time_ms": 283.1709384918213,
+      "timestamp": "2025-07-22T13:07:57.338358",
+      "expected_result": "Successful database query response",
+      "actual_result": "Connected",
+      "error_details": null,
+      "root_cause": null,
+      "suggestion": null,
+      "test_category": "database",
+      "severity": "low"
+    },
+    {
+      "test_name": "Products CRUD - Create Valid Product",
+      "success": true,
+      "status_code": 201,
+      "response_time_ms": 541.8963432312012,
+      "timestamp": "2025-07-22T13:07:57.880254",
+      "expected_result": "201 status with product ID",
+      "actual_result": {
+        "_id": "687f3fd507349b533d602a0a",
+        "name": "Enterprise Test Product",
+        "price": 999.99,
+        "size": [
+          "small",
+          "medium",
+          "large"
+        ],
+        "available_quantity": 100
+      },
+      "error_details": null,
+      "root_cause": null,
+      "suggestion": null,
+      "test_category": "crud",
+      "severity": "low"
+    },
+    {
+      "test_name": "Products CRUD - Create Invalid Product (Validation)",
+      "success": false,
+      "status_code": 422,
+      "response_time_ms": 15.724897384643555,
+      "timestamp": "2025-07-22T13:07:57.895979",
+      "expected_result": "400 status with validation errors",
+      "actual_result": {
+        "detail": [
+          {
+            "loc": [
+              "body",
+              "name"
+            ],
+            "msg": "ensure this value has at least 1 characters",
+            "type": "value_error.any_str.min_length",
+            "ctx": {
+              "limit_value": 1
+            }
+          },
+          {
+            "loc": [
+              "body",
+              "price"
+            ],
+            "msg": "ensure this value is greater than 0",
+            "type": "value_error.number.not_gt",
+            "ctx": {
+              "limit_value": 0
+            }
+          },
+          {
+            "loc": [
+              "body",
+              "size"
+            ],
+            "msg": "ensure this value has at least 1 items",
+            "type": "value_error.list.min_items",
+            "ctx": {
+              "limit_value": 1
+            }
+          },
+          {
+            "loc": [
+              "body",
+              "available_quantity"
+            ],
+            "msg": "ensure this value is greater than or equal to 0",
+            "type": "value_error.number.not_ge",
+            "ctx": {
+              "limit_value": 0
+            }
+          }
+        ]
+      },
+      "error_details": "Expected validation error",
+      "root_cause": "Input validation not working correctly",
+      "suggestion": "Check Pydantic validation rules and error handling",
+      "test_category": "validation",
+      "severity": "medium"
+    },
+    {
+      "test_name": "Products Filtering - Filter by Name - Exact Match",
+      "success": true,
+      "status_code": 200,
+      "response_time_ms": 256.72292709350586,
+      "timestamp": "2025-07-22T13:07:58.152702",
+      "expected_result": "Return products with 'Gaming Laptop' in name",
+      "actual_result": "Returned 1 products",
+      "error_details": null,
+      "root_cause": null,
+      "suggestion": null,
+      "test_category": "filtering",
+      "severity": "low"
+    },
+    {
+      "test_name": "Products Filtering - Filter by Name - Partial Match",
+      "success": true,
+      "status_code": 200,
+      "response_time_ms": 239.07136917114258,
+      "timestamp": "2025-07-22T13:07:58.391774",
+      "expected_result": "Return products containing 'laptop' (case-insensitive)",
+      "actual_result": "Returned 1 products",
+      "error_details": null,
+      "root_cause": null,
+      "suggestion": null,
+      "test_category": "filtering",
+      "severity": "low"
+    },
+    {
+      "test_name": "Products Filtering - Filter by Size",
+      "success": true,
+      "status_code": 200,
+      "response_time_ms": 192.1236515045166,
+      "timestamp": "2025-07-22T13:07:58.583897",
+      "expected_result": "Return products with 'large' size option",
+      "actual_result": "Returned 4 products",
+      "error_details": null,
+      "root_cause": null,
+      "suggestion": null,
+      "test_category": "filtering",
+      "severity": "low"
+    },
+    {
+      "test_name": "Products Filtering - Combined Filters",
+      "success": true,
+      "status_code": 200,
+      "response_time_ms": 193.7265396118164,
+      "timestamp": "2025-07-22T13:07:58.777624",
+      "expected_result": "Return products matching both name and size criteria",
+      "actual_result": "Returned 1 products",
+      "error_details": null,
+      "root_cause": null,
+      "suggestion": null,
+      "test_category": "filtering",
+      "severity": "low"
+    },
+    {
+      "test_name": "Products Filtering - Non-existent Filter",
+      "success": true,
+      "status_code": 200,
+      "response_time_ms": 208.70709419250488,
+      "timestamp": "2025-07-22T13:07:58.986331",
+      "expected_result": "Return empty array",
+      "actual_result": "Returned 0 products",
+      "error_details": null,
+      "root_cause": null,
+      "suggestion": null,
+      "test_category": "filtering",
+      "severity": "low"
+    },
+    {
+      "test_name": "Products Pagination - Zero Limit",
+      "success": true,
+      "status_code": 422,
+      "response_time_ms": 2.391338348388672,
+      "timestamp": "2025-07-22T13:07:58.988722",
+      "expected_result": "Status 422",
+      "actual_result": "Status 422",
+      "error_details": null,
+      "root_cause": null,
+      "suggestion": null,
+      "test_category": "pagination",
+      "severity": "low"
+    },
+    {
+      "test_name": "Products Pagination - Negative Limit",
+      "success": true,
+      "status_code": 422,
+      "response_time_ms": 0.0,
+      "timestamp": "2025-07-22T13:07:58.990727",
+      "expected_result": "Status 422",
+      "actual_result": "Status 422",
+      "error_details": null,
+      "root_cause": null,
+      "suggestion": null,
+      "test_category": "pagination",
+      "severity": "low"
+    },
+    {
+      "test_name": "Products Pagination - Limit Too High",
+      "success": true,
+      "status_code": 422,
+      "response_time_ms": 2.0024776458740234,
+      "timestamp": "2025-07-22T13:07:58.994732",
+      "expected_result": "Status 422",
+      "actual_result": "Status 422",
+      "error_details": null,
+      "root_cause": null,
+      "suggestion": null,
+      "test_category": "pagination",
+      "severity": "low"
+    },
+    {
+      "test_name": "Products Pagination - Negative Offset",
+      "success": true,
+      "status_code": 422,
+      "response_time_ms": 0.0,
+      "timestamp": "2025-07-22T13:07:58.994732",
+      "expected_result": "Status 422",
+      "actual_result": "Status 422",
+      "error_details": null,
+      "root_cause": null,
+      "suggestion": null,
+      "test_category": "pagination",
+      "severity": "low"
+    },
+    {
+      "test_name": "Products Pagination - Valid Pagination",
+      "success": true,
+      "status_code": 200,
+      "response_time_ms": 231.31132125854492,
+      "timestamp": "2025-07-22T13:07:59.226043",
+      "expected_result": "Status 200",
+      "actual_result": "Status 200",
+      "error_details": null,
+      "root_cause": null,
+      "suggestion": null,
+      "test_category": "pagination",
+      "severity": "low"
+    },
+    {
+      "test_name": "Products Pagination - High Offset",
+      "success": true,
+      "status_code": 200,
+      "response_time_ms": 255.0947666168213,
+      "timestamp": "2025-07-22T13:07:59.481138",
+      "expected_result": "Status 200",
+      "actual_result": "Status 200",
+      "error_details": null,
+      "root_cause": null,
+      "suggestion": null,
+      "test_category": "pagination",
+      "severity": "low"
+    },
+    {
+      "test_name": "Products Performance - Large Result Set",
+      "success": true,
+      "status_code": 200,
+      "response_time_ms": 212.9359245300293,
+      "timestamp": "2025-07-22T13:07:59.694074",
+      "expected_result": "Response under 3000ms",
+      "actual_result": "Response in 212.94ms",
+      "error_details": null,
+      "root_cause": null,
+      "suggestion": null,
+      "test_category": "performance",
+      "severity": "low"
+    },
+    {
+      "test_name": "Products Security - SQL Injection Attempt",
+      "success": true,
+      "status_code": 200,
+      "response_time_ms": 229.4013500213623,
+      "timestamp": "2025-07-22T13:07:59.927496",
+      "expected_result": "Safe handling of malicious input",
+      "actual_result": "Handled safely",
+      "error_details": null,
+      "root_cause": null,
+      "suggestion": null,
+      "test_category": "security",
+      "severity": "low"
+    },
+    {
+      "test_name": "Products Security - XSS Attempt",
+      "success": true,
+      "status_code": 200,
+      "response_time_ms": 270.993709564209,
+      "timestamp": "2025-07-22T13:08:00.198489",
+      "expected_result": "Safe handling of script tags",
+      "actual_result": "Handled safely",
+      "error_details": null,
+      "root_cause": null,
+      "suggestion": null,
+      "test_category": "security",
+      "severity": "low"
+    },
+    {
+      "test_name": "Products Security - Unicode Edge Cases",
+      "success": true,
+      "status_code": 200,
+      "response_time_ms": 221.50850296020508,
+      "timestamp": "2025-07-22T13:08:00.419998",
+      "expected_result": "Proper unicode handling",
+      "actual_result": "Handled safely",
+      "error_details": null,
+      "root_cause": null,
+      "suggestion": null,
+      "test_category": "security",
+      "severity": "low"
+    },
+    {
+      "test_name": "Products Security - Very Long Name",
+      "success": true,
+      "status_code": 200,
+      "response_time_ms": 269.54030990600586,
+      "timestamp": "2025-07-22T13:08:00.705454",
+      "expected_result": "Proper handling of long strings",
+      "actual_result": "Handled safely",
+      "error_details": null,
+      "root_cause": null,
+      "suggestion": null,
+      "test_category": "security",
+      "severity": "low"
+    },
+    {
+      "test_name": "Products Concurrency - Parallel Creation",
+      "success": true,
+      "status_code": 201,
+      "response_time_ms": 1311.4210605621338,
+      "timestamp": "2025-07-22T13:08:02.265384",
+      "expected_result": "4+ successful concurrent creations",
+      "actual_result": "5/5 successful creations",
+      "error_details": null,
+      "root_cause": null,
+      "suggestion": null,
+      "test_category": "concurrency",
+      "severity": "low"
+    },
+    {
+      "test_name": "Orders Lifecycle - Create Valid Order",
+      "success": true,
+      "status_code": 201,
+      "response_time_ms": 846.2684154510498,
+      "timestamp": "2025-07-22T13:08:03.312994",
+      "expected_result": "201 status with order ID",
+      "actual_result": {
+        "_id": "687f3fda07349b533d602a10",
+        "user_id": "enterprise_test_user",
+        "product_id": "687f3c2b2109482c7d494fa1",
+        "quantity": 1,
+        "created_at": "2025-07-22T07:38:02.659000"
+      },
+      "error_details": null,
+      "root_cause": null,
+      "suggestion": null,
+      "test_category": "crud",
+      "severity": "low"
+    },
+    {
+      "test_name": "Orders Business Rules - Invalid Product ID",
+      "success": true,
+      "status_code": 404,
+      "response_time_ms": 254.2898654937744,
+      "timestamp": "2025-07-22T13:08:03.934413",
+      "expected_result": "Status 404: Product not found error",
+      "actual_result": {
+        "detail": "Product with ID 507f1f77bcf86cd799439011 not found",
+        "status_code": 404
+      },
+      "error_details": null,
+      "root_cause": null,
+      "suggestion": null,
+      "test_category": "business_rules",
+      "severity": "low"
+    },
+    {
+      "test_name": "Orders Business Rules - Invalid Product ID Format",
+      "success": false,
+      "status_code": 422,
+      "response_time_ms": 2.895355224609375,
+      "timestamp": "2025-07-22T13:08:03.937827",
+      "expected_result": "Status 400: Invalid ObjectId format error",
+      "actual_result": {
+        "detail": [
+          {
+            "loc": [
+              "body",
+              "product_id"
+            ],
+            "msg": "Invalid product ID format",
+            "type": "value_error"
+          }
+        ]
+      },
+      "error_details": "Expected 400, got 422",
+      "root_cause": "Business rule validation issues",
+      "suggestion": "Check order validation logic and error handling",
+      "test_category": "business_rules",
+      "severity": "medium"
+    },
+    {
+      "test_name": "Orders Business Rules - Zero Quantity",
+      "success": false,
+      "status_code": 422,
+      "response_time_ms": 2.159595489501953,
+      "timestamp": "2025-07-22T13:08:03.940508",
+      "expected_result": "Status 400: Quantity must be positive",
+      "actual_result": {
+        "detail": [
+          {
+            "loc": [
+              "body",
+              "quantity"
+            ],
+            "msg": "ensure this value is greater than 0",
+            "type": "value_error.number.not_gt",
+            "ctx": {
+              "limit_value": 0
+            }
+          }
+        ]
+      },
+      "error_details": "Expected 400, got 422",
+      "root_cause": "Business rule validation issues",
+      "suggestion": "Check order validation logic and error handling",
+      "test_category": "business_rules",
+      "severity": "medium"
+    },
+    {
+      "test_name": "Orders Business Rules - Negative Quantity",
+      "success": false,
+      "status_code": 422,
+      "response_time_ms": 1.6617774963378906,
+      "timestamp": "2025-07-22T13:08:03.942685",
+      "expected_result": "Status 400: Quantity must be positive",
+      "actual_result": {
+        "detail": [
+          {
+            "loc": [
+              "body",
+              "quantity"
+            ],
+            "msg": "ensure this value is greater than 0",
+            "type": "value_error.number.not_gt",
+            "ctx": {
+              "limit_value": 0
+            }
+          }
+        ]
+      },
+      "error_details": "Expected 400, got 422",
+      "root_cause": "Business rule validation issues",
+      "suggestion": "Check order validation logic and error handling",
+      "test_category": "business_rules",
+      "severity": "medium"
+    },
+    {
+      "test_name": "Orders Business Rules - Excessive Quantity",
+      "success": true,
+      "status_code": 400,
+      "response_time_ms": 247.87259101867676,
+      "timestamp": "2025-07-22T13:08:04.191575",
+      "expected_result": "Status 400: Insufficient quantity available",
+      "actual_result": {
+        "detail": "Insufficient quantity. Available: 9, Requested: 109",
+        "status_code": 400
+      },
+      "error_details": null,
+      "root_cause": null,
+      "suggestion": null,
+      "test_category": "business_rules",
+      "severity": "low"
+    },
+    {
+      "test_name": "Orders Pagination - Get Orders for user_1",
+      "success": true,
+      "status_code": 200,
+      "response_time_ms": 303.94458770751953,
+      "timestamp": "2025-07-22T13:08:04.495519",
+      "expected_result": "List of orders",
+      "actual_result": "Retrieved 1 orders",
+      "error_details": null,
+      "root_cause": null,
+      "suggestion": null,
+      "test_category": "retrieval",
+      "severity": "low"
+    },
+    {
+      "test_name": "Orders Pagination - Get Orders for user_2",
+      "success": true,
+      "status_code": 200,
+      "response_time_ms": 317.5945281982422,
+      "timestamp": "2025-07-22T13:08:04.813114",
+      "expected_result": "List of orders",
+      "actual_result": "Retrieved 2 orders",
+      "error_details": null,
+      "root_cause": null,
+      "suggestion": null,
+      "test_category": "retrieval",
+      "severity": "low"
+    },
+    {
+      "test_name": "Orders Pagination - Get Orders for user_3",
+      "success": true,
+      "status_code": 200,
+      "response_time_ms": 286.9753837585449,
+      "timestamp": "2025-07-22T13:08:05.116013",
+      "expected_result": "List of orders",
+      "actual_result": "Retrieved 3 orders",
+      "error_details": null,
+      "root_cause": null,
+      "suggestion": null,
+      "test_category": "retrieval",
+      "severity": "low"
+    },
+    {
+      "test_name": "Orders Pagination - Get Orders for nonexistent_user",
+      "success": true,
+      "status_code": 200,
+      "response_time_ms": 351.06468200683594,
+      "timestamp": "2025-07-22T13:08:05.467078",
+      "expected_result": "Empty list for nonexistent user",
+      "actual_result": "Retrieved 0 orders",
+      "error_details": null,
+      "root_cause": null,
+      "suggestion": null,
+      "test_category": "retrieval",
+      "severity": "low"
+    },
+    {
+      "test_name": "Orders Pagination - Valid Pagination",
+      "success": true,
+      "status_code": 200,
+      "response_time_ms": 255.33342361450195,
+      "timestamp": "2025-07-22T13:08:05.722411",
+      "expected_result": "Status 200",
+      "actual_result": "Status 200",
+      "error_details": null,
+      "root_cause": null,
+      "suggestion": null,
+      "test_category": "pagination",
+      "severity": "low"
+    },
+    {
+      "test_name": "Orders Pagination - Negative Limit",
+      "success": true,
+      "status_code": 422,
+      "response_time_ms": 0.0,
+      "timestamp": "2025-07-22T13:08:05.722411",
+      "expected_result": "Status 422",
+      "actual_result": "Status 422",
+      "error_details": null,
+      "root_cause": null,
+      "suggestion": null,
+      "test_category": "pagination",
+      "severity": "low"
+    },
+    {
+      "test_name": "Orders Pagination - Limit Too High",
+      "success": true,
+      "status_code": 422,
+      "response_time_ms": 15.762090682983398,
+      "timestamp": "2025-07-22T13:08:05.738173",
+      "expected_result": "Status 422",
+      "actual_result": "Status 422",
+      "error_details": null,
+      "root_cause": null,
+      "suggestion": null,
+      "test_category": "pagination",
+      "severity": "low"
+    },
+    {
+      "test_name": "Orders Pagination - Negative Offset",
+      "success": true,
+      "status_code": 422,
+      "response_time_ms": 0.0,
+      "timestamp": "2025-07-22T13:08:05.738173",
+      "expected_result": "Status 422",
+      "actual_result": "Status 422",
+      "error_details": null,
+      "root_cause": null,
+      "suggestion": null,
+      "test_category": "pagination",
+      "severity": "low"
+    },
+    {
+      "test_name": "Orders Performance - Large Result Set",
+      "success": true,
+      "status_code": 200,
+      "response_time_ms": 192.71063804626465,
+      "timestamp": "2025-07-22T13:08:05.930884",
+      "expected_result": "Response under 2000ms",
+      "actual_result": "Response in 192.71ms",
+      "error_details": null,
+      "root_cause": null,
+      "suggestion": null,
+      "test_category": "performance",
+      "severity": "low"
+    },
+    {
+      "test_name": "Orders Data Integrity - Field Completeness",
+      "success": true,
+      "status_code": 201,
+      "response_time_ms": 1015.674352645874,
+      "timestamp": "2025-07-22T13:08:07.160922",
+      "expected_result": "All required fields present with correct values",
+      "actual_result": "All fields present",
+      "error_details": null,
+      "root_cause": null,
+      "suggestion": null,
+      "test_category": "data_integrity",
+      "severity": "low"
+    },
+    {
+      "test_name": "API Documentation - Swagger UI",
+      "success": true,
+      "status_code": 200,
+      "response_time_ms": 4.983186721801758,
+      "timestamp": "2025-07-22T13:08:07.180665",
+      "expected_result": "Accessible Swagger UI documentation",
+      "actual_result": "Documentation accessible",
+      "error_details": null,
+      "root_cause": null,
+      "suggestion": null,
+      "test_category": "documentation",
+      "severity": "low"
+    },
+    {
+      "test_name": "API Documentation - ReDoc",
+      "success": true,
+      "status_code": 200,
+      "response_time_ms": 0.0,
+      "timestamp": "2025-07-22T13:08:07.180665",
+      "expected_result": "Accessible ReDoc documentation",
+      "actual_result": "Documentation accessible",
+      "error_details": null,
+      "root_cause": null,
+      "suggestion": null,
+      "test_category": "documentation",
+      "severity": "low"
+    },
+    {
+      "test_name": "API Documentation - OpenAPI Spec",
+      "success": true,
+      "status_code": 200,
+      "response_time_ms": 26.601552963256836,
+      "timestamp": "2025-07-22T13:08:07.207267",
+      "expected_result": "Accessible OpenAPI Spec documentation",
+      "actual_result": "Documentation accessible",
+      "error_details": null,
+      "root_cause": null,
+      "suggestion": null,
+      "test_category": "documentation",
+      "severity": "low"
+    },
+    {
+      "test_name": "Error Handling - Non-existent Endpoint",
+      "success": true,
+      "status_code": 404,
+      "response_time_ms": 0.0,
+      "timestamp": "2025-07-22T13:08:07.207267",
+      "expected_result": "Status 404: Should return 404 for non-existent endpoints",
+      "actual_result": "Status 404",
+      "error_details": null,
+      "root_cause": null,
+      "suggestion": null,
+      "test_category": "error_handling",
+      "severity": "low"
+    },
+    {
+      "test_name": "Error Handling - Malformed JSON",
+      "success": true,
+      "status_code": 422,
+      "response_time_ms": 0.0,
+      "timestamp": "2025-07-22T13:08:07.207267",
+      "expected_result": "Status 422: Should handle malformed JSON gracefully",
+      "actual_result": "Status 422",
+      "error_details": null,
+      "root_cause": null,
+      "suggestion": null,
+      "test_category": "error_handling",
+      "severity": "low"
+    },
+    {
+      "test_name": "Error Handling - Wrong Content-Type",
+      "success": true,
+      "status_code": 422,
+      "response_time_ms": 0.0,
+      "timestamp": "2025-07-22T13:08:07.207267",
+      "expected_result": "Status 422: Should reject non-JSON content for JSON endpoints",
+      "actual_result": "Status 422",
+      "error_details": null,
+      "root_cause": null,
+      "suggestion": null,
+      "test_category": "error_handling",
+      "severity": "low"
+    },
+    {
+      "test_name": "Error Handling - Empty Request Body",
+      "success": true,
+      "status_code": 422,
+      "response_time_ms": 15.866994857788086,
+      "timestamp": "2025-07-22T13:08:07.223134",
+      "expected_result": "Status 422: Should handle empty request body",
+      "actual_result": "Status 422",
+      "error_details": null,
+      "root_cause": null,
+      "suggestion": null,
+      "test_category": "error_handling",
+      "severity": "low"
+    }
+  ],
+  "categories": {
+    "validation": {
+      "total": 1,
+      "passed": 0,
+      "failed": 1
+    },
+    "documentation": {
+      "total": 3,
+      "passed": 3,
+      "failed": 0
+    },
+    "health": {
+      "total": 1,
+      "passed": 0,
+      "failed": 1
+    },
+    "database": {
+      "total": 1,
+      "passed": 1,
+      "failed": 0
+    },
+    "filtering": {
+      "total": 5,
+      "passed": 5,
+      "failed": 0
+    },
+    "data_integrity": {
+      "total": 1,
+      "passed": 1,
+      "failed": 0
+    },
+    "error_handling": {
+      "total": 4,
+      "passed": 4,
+      "failed": 0
+    },
+    "performance": {
+      "total": 3,
+      "passed": 3,
+      "failed": 0
+    },
+    "security": {
+      "total": 4,
+      "passed": 4,
+      "failed": 0
+    },
+    "concurrency": {
+      "total": 1,
+      "passed": 1,
+      "failed": 0
+    },
+    "pagination": {
+      "total": 10,
+      "passed": 10,
+      "failed": 0
+    },
+    "crud": {
+      "total": 2,
+      "passed": 2,
+      "failed": 0
+    },
+    "retrieval": {
+      "total": 4,
+      "passed": 4,
+      "failed": 0
+    },
+    "business_rules": {
+      "total": 5,
+      "passed": 2,
+      "failed": 3
+    }
+  },
+  "critical_issues": [
+    {
+      "test_name": "Health Check - Basic",
+      "success": false,
+      "status_code": 200,
+      "response_time_ms": 2058.337450027466,
+      "timestamp": "2025-07-22T13:07:54.973413",
+      "expected_result": {
+        "status": "healthy",
+        "service": "ecommerce-api"
+      },
+      "actual_result": {
+        "status": "healthy",
+        "service": "ecommerce-api"
+      },
+      "error_details": null,
+      "root_cause": "Server not responding correctly",
+      "suggestion": "Check if FastAPI server is running and accessible",
+      "test_category": "health",
+      "severity": "critical"
+    }
+  ]
+}
